@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onsori WOW Analysis - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Onsori WOW Analysis System</h1>
+        <p>발음 학습 분석 시스템 대시보드</p>
+    </header>
+
+    <div class="container">
+        <!-- System Statistics -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalUsers">-</div>
+                <div class="stat-label">총 사용자 수</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalQuestions">-</div>
+                <div class="stat-label">총 문제 수</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="averageAccuracy">-</div>
+                <div class="stat-label">평균 정답률</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="activeJobs">-</div>
+                <div class="stat-label">실행 중인 작업</div>
+            </div>
+        </div>
+
+        <!-- Batch Job Controls -->
+        <div class="section">
+            <h2>배치 작업 관리</h2>
+            <div class="batch-controls">
+                <button class="btn btn-primary" onclick="triggerBatch('daily_analysis')">
+                    일일 분석 실행
+                </button>
+                <button class="btn btn-primary" onclick="triggerBatch('weekly_report')">
+                    주간 리포트 생성
+                </button>
+                <button class="btn btn-primary" onclick="triggerBatch('monthly_summary')">
+                    월간 요약 생성
+                </button>
+                <button class="btn btn-secondary" onclick="refreshStatus()">
+                    상태 새로고침
+                </button>
+            </div>
+            <div id="batchMessage"></div>
+        </div>
+
+        <!-- Recent Jobs -->
+        <div class="section">
+            <h2>최근 배치 작업</h2>
+            <div id="recentJobs" class="loading">
+                배치 작업 상태를 불러오는 중...
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="section">
+            <h2>빠른 링크</h2>
+            <div class="batch-controls">
+                <a href="/test" class="btn btn-secondary">테스트 인터페이스</a>
+                <a href="/api/docs" class="btn btn-secondary" target="_blank">API 문서</a>
+                <button class="btn btn-secondary" onclick="checkOllamaHealth()">
+                    Ollama 상태 확인
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onsori WOW Analysis - Test Interface</title>
+    <link rel="stylesheet" href="/static/css/test.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Test Interface</h1>
+        <nav class="nav">
+            <a href="/">대시보드</a>
+            <a href="/api/docs">API 문서</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Tab Navigation -->
+        <div class="section">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('users')">사용자 관리</button>
+                <button class="tab" onclick="switchTab('analysis')">분석 테스트</button>
+                <button class="tab" onclick="switchTab('batch')">배치 작업</button>
+                <button class="tab" onclick="switchTab('system')">시스템 테스트</button>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="users-tab" class="tab-content active">
+                <h2>사용자 관리</h2>
+
+                <!-- Create User -->
+                <div style="margin-bottom: 2rem;">
+                    <h3>새 사용자 생성</h3>
+                    <form id="createUserForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>사용자명</label>
+                                <input type="text" id="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>이메일</label>
+                                <input type="email" id="email">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">사용자 생성</button>
+                    </form>
+                </div>
+
+                <!-- User List -->
+                <div>
+                    <h3>사용자 목록</h3>
+                    <button class="btn btn-secondary" onclick="loadUsers()">목록 새로고침</button>
+                    <div id="usersList" class="user-list">
+                        <div class="loading">사용자 목록을 불러오는 중...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis Tab -->
+            <div id="analysis-tab" class="tab-content">
+                <h2>분석 테스트</h2>
+
+                <div class="form-group">
+                    <label>사용자 ID</label>
+                    <input type="number" id="analysisUserId" placeholder="사용자 ID 입력">
+                </div>
+
+                <div class="form-group">
+                    <label>분석 기간 (일)</label>
+                    <select id="analysisPeriod">
+                        <option value="7">7일</option>
+                        <option value="14">14일</option>
+                        <option value="30" selected>30일</option>
+                    </select>
+                </div>
+
+                <div>
+                    <button class="btn btn-primary" onclick="testAccuracyAnalysis()">정확도 분석</button>
+                    <button class="btn btn-primary" onclick="testConfusionAnalysis()">혼동 패턴 분석</button>
+                    <button class="btn btn-success" onclick="testFullReport()">종합 리포트</button>
+                </div>
+
+                <div id="analysisResult" class="result-container" style="display: none;">
+                    <h4>분석 결과</h4>
+                    <pre id="analysisData"></pre>
+                </div>
+            </div>
+
+            <!-- Batch Tab -->
+            <div id="batch-tab" class="tab-content">
+                <h2>배치 작업 테스트</h2>
+
+                <div>
+                    <button class="btn btn-primary" onclick="triggerTestBatch('daily_analysis')">일일 분석 실행</button>
+                    <button class="btn btn-primary" onclick="triggerTestBatch('weekly_report')">주간 리포트</button>
+                    <button class="btn btn-primary" onclick="triggerTestBatch('monthly_summary')">월간 요약</button>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-secondary" onclick="getBatchStatus()">배치 상태 확인</button>
+                    <button class="btn btn-secondary" onclick="getBatchJobs()">작업 이력 조회</button>
+                </div>
+
+                <div id="batchResult" class="result-container" style="display: none;">
+                    <h4>배치 작업 결과</h4>
+                    <pre id="batchData"></pre>
+                </div>
+            </div>
+
+            <!-- System Tab -->
+            <div id="system-tab" class="tab-content">
+                <h2>시스템 테스트</h2>
+
+                <div>
+                    <button class="btn btn-success" onclick="testSystemHealth()">시스템 상태 확인</button>
+                    <button class="btn btn-success" onclick="testOllamaConnection()">Ollama 연결 테스트</button>
+                    <button class="btn btn-secondary" onclick="getSystemInfo()">시스템 정보</button>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <h3>Ollama 직접 테스트</h3>
+                    <div class="form-group">
+                        <label>테스트 데이터 (JSON)</label>
+                        <textarea id="ollamaTestData" placeholder='{"total_questions": 10, "accuracy": 0.7, "confusion_patterns": {"사과 -> 바나나": 3}}'></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="testOllamaAnalysis()">Ollama 분석 테스트</button>
+                </div>
+
+                <div id="systemResult" class="result-container" style="display: none;">
+                    <h4>시스템 테스트 결과</h4>
+                    <pre id="systemData"></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Global Message Area -->
+        <div id="globalMessage"></div>
+    </div>
+
+    <script src="/static/js/test.js"></script>
+</body>
+</html>
